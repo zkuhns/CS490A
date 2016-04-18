@@ -1,0 +1,14 @@
+*.iex
+*.axf
+*.htm
+*.lnp
+*.plg
+*.tra
+*.uvgui
+*.bak
+*.uvopt
+*.uvproj
+*.dep
+*.d
+*.o
+*.lst
