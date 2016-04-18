@@ -1,9 +1,7 @@
 ;****************** main.s ***************
-; Program written by: ***Your Names**update this***
+; Program written by: Zach Kuhns, Luke Hopkins
 ; Date Created: 1/22/2016 
-; Last Modified: 1/22/2016 
-; Section ***Tuesday 1-2***update this***
-; Instructor: ***Ramesh Yerraballi**update this***
+; Last Modified: 1/22/2016
 ; Lab number: 2
 ; Brief description of the program
 ; The overall objective of this system an interactive alarm

@@ -1,9 +1,7 @@
 ;****************** main.s ***************
-; Program written by: ***Your Names**update this***
+; Program written by: Zach Kuhns, Luke Hopkins
 ; Date Created: 1/22/2016 
 ; Last Modified: 1/22/2016 
-; Section ***Tuesday 1-2***update this***
-; Instructor: ***Ramesh Yerraballi**update this***
 ; Lab number: 1
 ; Brief description of the program
 ; The overall objective of this system is a digital lock
@@ -14,6 +12,7 @@
 ;  PE2 is LED output (0 means door is locked, 1 means door is unlocked) 
 ; The specific operation of this system is to 
 ;   unlock if all three switches are pressed
+
 SYSCTL_RCGCGPIO_R       EQU   0x400FE608    ; PORT E clock
 GPIO_PORTE_DATA_BITS_R  EQU   0x40024000   
 GPIO_PORTE_DATA_R       EQU   0x400243FC
