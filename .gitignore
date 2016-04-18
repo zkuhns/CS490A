@@ -12,3 +12,5 @@
 *.d
 *.o
 *.lst
+*.map
+*.zach
