@@ -1,3 +1,7 @@
+// ******TableTrafficLight.c***************
+// Program written by: Zach Kuhns, Luke Hopkins
+// Lab 5
+
 // TableTrafficLight.c
 // Runs on LM4F120 or TM4C123
 // Index implementation of a Moore finite state machine to operate
