@@ -172,11 +172,11 @@ int main(void){ volatile unsigned long delay;
 	PortE_Init();
 	PortF_Init();
 	
-  S = 4;  
+  S = goN;  
   while(1){
     GPIO_PORTB_OUT = FSM[S].DriveLight; // set drive lights
-		GPIO_PORTF_OUT = FSM[S].WalkLight; // set walk lights
-    //SysTick_Wait10ms(10);
+    GPIO_PORTF_OUT = FSM[S].WalkLight; // set walk lights
+    //SysTick_Wait10ms(FSM[S].Time);
     Input = GPIO_PORTE_IN;     // read sensors
     S = FSM[S].Next[Input];  
   }
