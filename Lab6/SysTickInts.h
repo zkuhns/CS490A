@@ -25,11 +25,7 @@
 #ifndef __SYSTICKINTS_H__ // do not include more than once
 #define __SYSTICKINTS_H__
 
-void DisableInterrupts(void); // Disable interrupts
-void EnableInterrupts(void);  // Enable interrupts
-long StartCritical (void);    // previous I bit, disable interrupts
-void EndCritical(long sr);    // restore I bit to previous value
-void WaitForInterrupt(void);  // low power mode
+#include "stdint.h"
 
 // **************SysTick_Init*********************
 // Initialize Systick periodic interrupts
