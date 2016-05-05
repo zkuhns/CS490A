@@ -4,10 +4,10 @@
 ; Daniel Valvano
 ; May 4, 2012
 
-;  This example accompanies the book
-;  "Embedded Systems: Introduction to Arm Cortex M Microcontrollers",
-;  ISBN: 978-1469998749, Jonathan Valvano, copyright (c) 2014
-;  Section 3.3.10, Program 3.12
+; This example accompanies the book
+; "Embedded Systems: Introduction to Arm Cortex M Microcontrollers",
+; ISBN: 978-1469998749, Jonathan Valvano, copyright (c) 2014
+; Section 3.3.10, Program 3.12
 ;
 ;Copyright 2014 by Jonathan W. Valvano, valvano@mail.utexas.edu
 ;   You may use, edit, run or distribute this file
@@ -19,6 +19,13 @@
 ;OR CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.
 ;For more information about my classes, my research, and my books, see
 ;http://users.ece.utexas.edu/~valvano/
+
+; Zach Kuhns
+; CS490A HW 2
+; This programs implements a 64 adder and subtractor that
+; saturates from overflows.  This program also implements
+; and endian converter that transforms a number to its
+; opposite endian format.
 
 
 ; we align 32 bit variables to 32-bits
