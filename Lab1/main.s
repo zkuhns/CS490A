@@ -41,73 +41,62 @@ GPIO_PORTE_ADCCTL_R     EQU   0x40024530
 GPIO_PORTE_DMACTL_R     EQU   0x40024534
 GPIO_PORTE_SI_R         EQU   0x40024538
 
-      AREA    |.text|, CODE, READONLY, ALIGN=2
-      THUMB
-      EXPORT  Start
-Start
-	BL    PortE_Init
-	B     loop
+    AREA    |.text|, CODE, READONLY, ALIGN=2
+    THUMB
+    EXPORT  Start
+Start         BL    PortE_Init
+              B     loop
 	
-PortE_Init
-	LDR    R1,    =SYSCTL_RCGCGPIO_R    ; Port E clock
-	LDR    R0,    [R1]
-	ORR    R0,    R0,    #0x10
-	STR    R0,    [R1]
-	NOP
-	NOP
-	NOP
+PortE_Init    LDR    R1,    =SYSCTL_RCGCGPIO_R    ; Port E clock
+              LDR    R0,    [R1]
+              ORR    R0,    R0,    #0x10
+              STR    R0,    [R1]
+              NOP
+              NOP
+              NOP
 	
-	LDR    R1,    =GPIO_PORTE_LOCK_R    ; Port E unlock
-	LDR    R0,    =0x4C4F434B
-	STR    R0,    [R1]
+              LDR    R1,    =GPIO_PORTE_LOCK_R    ; Port E unlock
+              LDR    R0,    =0x4C4F434B
+              STR    R0,    [R1]
 	
-	; This breaks the program for some reason
-	;LDR    R1,    =GPIO_PORTE_CR_R    ; Allow changes to PE2-5
-	;MOV    R0,    #0x3C
-	;STR    R0,    [R1]
+              LDR    R1,    =GPIO_PORTE_AMSEL_R    ; Disable GPIO
+              MOV    R0,    #0x00
+              STR    R0,    [R1]
 	
-	LDR    R1,    =GPIO_PORTE_AMSEL_R    ; Disable GPIO
-	MOV    R0,    #0x00
-	STR    R0,    [R1]
+              LDR    R1,    =GPIO_PORTE_PCTL_R    ; GPIO configure
+              MOV    R0,    #0x00
+              STR    R0,    [R1]
 	
-	LDR    R1,    =GPIO_PORTE_PCTL_R    ; GPIO configure
-	MOV    R0,    #0x00
-	STR    R0,    [R1]
+              LDR    R1,    =GPIO_PORTE_AFSEL_R    ; Disable alternate function
+              MOV    R0,    #0x00
+              STR    R0,    [R1]
 	
-	LDR    R1,    =GPIO_PORTE_AFSEL_R    ; Disable alternate function
-	MOV    R0,    #0x00
-	STR    R0,    [R1]
+              LDR    R1,    =GPIO_PORTE_DEN_R    ; Enable pins PE2-5
+              MOV    R0,    #0x3C
+              STR    R0,    [R1]
 	
-	LDR    R1,    =GPIO_PORTE_DEN_R    ; Enable pins PE2-5
-	MOV    R0,    #0x3C
-	STR    R0,    [R1]
+              LDR    R1,    =GPIO_PORTE_DIR_R    ; Output register
+              MOV    R0,    #0x04
+              STR    R0,    [R1]
 	
-	LDR    R1,    =GPIO_PORTE_DIR_R    ; Output register
-	MOV    R0,    #0x04
-	STR    R0,    [R1]
+              LDR    R1,    =GPIO_PORTE_PUR_R    ; Pullup register
+              MOV    R0,    #0x38
+              STR    R0,    [R1]
+              BX     LR
 	
-	LDR    R1,    =GPIO_PORTE_PUR_R    ; Pullup register
-	MOV    R0,    #0x38
-	STR    R0,    [R1]
-	BX     LR
-	
-PortE_Input
-	LDR    R1,    =GPIO_PORTE_DATA_R    ; Load Data address into R1
-	LDR    R0,    [R1]    ; Load Data contents into R0
-	BX     LR
-PortE_Output
-	LDR    R1,    =GPIO_PORTE_DATA_R    ; Load Data address into R1
-	ORR    R0,    #0x04    ; Set the LED bit to 1 without changing switch bits
-	CMP    R0,    #0x04    ; Are all inputs on?
-	SUBNE  R0,    R0,    #0x04    ; Turn the LED off
-	STR    R0,    [R1]    ; Update the data register
-	BX     LR
+PortE_Input   LDR    R1,    =GPIO_PORTE_DATA_R    ; Load Data address into R1
+              LDR    R0,    [R1]    ; Load Data contents into R0
+              BX     LR
+PortE_Output  LDR    R1,    =GPIO_PORTE_DATA_R    ; Load Data address into R1
+              ORR    R0,    #0x04    ; Set the LED bit to 1 without changing switch bits
+              CMP    R0,    #0x04    ; Are all inputs on?
+              SUBNE  R0,    R0,    #0x04    ; Turn the LED off
+              STR    R0,    [R1]    ; Update the data register
+              BX     LR
 
-loop
-	BL    PortE_Input
-	BL    PortE_Output
-	B     loop
+loop          BL    PortE_Input
+              BL    PortE_Output
+              B     loop
 
-
-      ALIGN        ; make sure the end of this section is aligned
-      END          ; end of file
+    ALIGN        ; make sure the end of this section is aligned
+    END          ; end of file
