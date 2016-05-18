@@ -24,77 +24,70 @@ GPIO_PORTF_AMSEL_R      EQU   0x40025528
 GPIO_PORTF_PCTL_R       EQU   0x4002552C
 SYSCTL_RCGCGPIO_R       EQU   0x400FE608
 
-       AREA    |.text|, CODE, READONLY, ALIGN=2
-       THUMB
-       EXPORT  Start
-Start
-	BL    PortF_Init
-	B     loop
+    AREA    |.text|, CODE, READONLY, ALIGN=2
+    THUMB
+    EXPORT  Start
+Start         BL    PortF_Init
+              B     loop
 
 ; PortF initializations
-PortF_Init
-	LDR    R0,    =SYSCTL_RCGCGPIO_R
-	MOV    R1,    #0x20
-	STR    R1,    [R0]
+PortF_Init    LDR    R0,    =SYSCTL_RCGCGPIO_R
+              MOV    R1,    #0x20
+              STR    R1,    [R0]
 	
-	LDR    R0,    =GPIO_PORTF_DATA_R
-	MOV    R1,    #0x00
-	STR    R1,    [R0]
+              LDR    R0,    =GPIO_PORTF_DATA_R
+              MOV    R1,    #0x00
+              STR    R1,    [R0]
 	
-	LDR    R0,    =GPIO_PORTF_DIR_R
-	MOV    R1,    #0x08
-	STR    R1,    [R0]
+              LDR    R0,    =GPIO_PORTF_DIR_R
+              MOV    R1,    #0x08
+              STR    R1,    [R0]
 	
-	LDR    R0,    =GPIO_PORTF_AFSEL_R
-	MOV    R1,    #0x00
-	STR    R1,    [R0]
+              LDR    R0,    =GPIO_PORTF_AFSEL_R
+              MOV    R1,    #0x00
+              STR    R1,    [R0]
 	
-	LDR    R0,    =GPIO_PORTF_PUR_R
-	MOV    R1,    #0x10
-	STR    R1,    [R0]
+              LDR    R0,    =GPIO_PORTF_PUR_R
+              MOV    R1,    #0x10
+              STR    R1,    [R0]
 	
-	LDR    R0,    =GPIO_PORTF_DEN_R
-	MOV    R1,    #0x18
-	STR    R1,    [R0]
+              LDR    R0,    =GPIO_PORTF_DEN_R
+              MOV    R1,    #0x18
+              STR    R1,    [R0]
 	
-	LDR    R0,    =GPIO_PORTF_AMSEL_R
-	MOV    R1,    #0x00
-	STR    R1,    [R0]
+              LDR    R0,    =GPIO_PORTF_AMSEL_R
+              MOV    R1,    #0x00
+              STR    R1,    [R0]
 	
-	LDR    R0,    =GPIO_PORTF_PCTL_R
-	MOV    R1,    #0x00
-	STR    R1,    [R0]
+              LDR    R0,    =GPIO_PORTF_PCTL_R
+              MOV    R1,    #0x00
+              STR    R1,    [R0]
 	
-	BX     LR
+              BX     LR
 
 ; R0 address to data
 ; R1 data register
 ; R2 state on/off
 ; R3 delay decrement value
-loop
-	LDR    R0,    =GPIO_PORTF_DATA_R      ; Read address of data into R0
-	LDR    R1,    [R0]                    ; Copy data contents into R1
-	AND    R2,    R1,    #0x10            ; Check if the switch is on
-	CMP    R2,    #0x00                   ; Comparison to see if it is on
-	BEQ    delay                          ; If it is on go to the delay tag
-	BNE    turnoff                        ; If it is off go to the turnoff tag
-delay
-	LDR    R3,    =0x00061A80             ; Load 400000 into R3
-wait
-	SUBS   R3,    R3,    #1               ; Subtract one from R3 until 0
-	BNE    wait                           ; Repeat decrement
-switch
-	AND    R2,    R1,    #0x08            ; Check if the light is on
-	CMP    R2,    #0x08                   ; Comparison if the light is on
-	SUBEQ  R1,    #8                      ; If it is on turn it off
-	ADDNE  R1,    #8                      ; If it is off turn it on
-	STR    R1,    [R0]                    ; Store contents of R1 back into data register
-	B      loop                           ; Go back to loop tag
-turnoff
-	MOV    R1,    #0x10                   ; Turn the led off
-	STR    R1,    [R0]                    ; Store contents of R1 into data register
-	B      loop                           ; Go back to loop tag
+loop          LDR    R0,    =GPIO_PORTF_DATA_R      ; Read address of data into R0
+              LDR    R1,    [R0]                    ; Copy data contents into R1
+              AND    R2,    R1,    #0x10            ; Check if the switch is on
+              CMP    R2,    #0x00                   ; Comparison to see if it is on
+              BEQ    delay                          ; If it is on go to the delay tag
+              BNE    turnoff                        ; If it is off go to the turnoff tag
+delay         LDR    R3,    =0x00061A80             ; Load 400000 into R3
+wait          SUBS   R3,    R3,    #1               ; Subtract one from R3 until 0
+              BNE    wait                           ; Repeat decrement
+switch        AND    R2,    R1,    #0x08            ; Check if the light is on
+              CMP    R2,    #0x08                   ; Comparison if the light is on
+              SUBEQ  R1,    #8                      ; If it is on turn it off
+              ADDNE  R1,    #8                      ; If it is off turn it on
+              STR    R1,    [R0]                    ; Store contents of R1 back into data register
+              B      loop                           ; Go back to loop tag
+turnoff       MOV    R1,    #0x10                   ; Turn the led off
+              STR    R1,    [R0]                    ; Store contents of R1 into data register
+              B      loop                           ; Go back to loop tag
 	
-	ALIGN      ; make sure the end of this section is aligned
-	END        ; end of file
+    ALIGN      ; make sure the end of this section is aligned
+    END        ; end of file
        
